@@ -10,7 +10,7 @@ jobs:
     if: "github.event.pull_request.merged == true && startsWith(github.event.pull_request.title, 'release: ')"
     runs-on: ubuntu-latest
     steps:
-      - env: 
+      - env:
           REQBODY: ${{github.event.pull_request.body}}
         run: |
           echo "${REQBODY}"
@@ -19,23 +19,23 @@ jobs:
 
       - name: Setup Env
         uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: 16
       - name: Install Pkgs
-        run: npm ci
+        run: npm i
       - name: Get Version
         run: node -p -e '`VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
       - name: Build
-        run: | 
+        run: |
           cd ./android
           ./gradlew assembleRelease
       - name: Generate Changelog
         run: echo github.event_name
-  manual: 
+  manual:
     runs-on: ubuntu-latest
     if: "github.event_name == 'workflow_dispatch'"
     steps:
-      - env: 
+      - env:
           REQBODY: ${{github.event.pull_request.body}}
         run: |
           echo "${REQBODY}"
@@ -44,14 +44,14 @@ jobs:
 
       - name: Setup Env
         uses: actions/setup-node@v3
-        with: 
+        with:
           node-version: 16
       - name: Install Pkgs
-        run: npm ci
+        run: npm i
       - name: Get Version
         run: node -p -e '`VERSION=${require("./package.json").version}`' >> $GITHUB_ENV
       - name: Build
-        run: | 
+        run: |
           cd ./android
           ./gradlew assembleRelease
-      
+
